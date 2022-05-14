@@ -10,52 +10,98 @@ public class JumpZ : MonoBehaviour
     [SerializeField] private float _maxJumpHeight;
     [SerializeField] private float _velocity;
 
+    private float _jumpHeight;
     private bool _isGrounded;
+    private JumpStates _currentJumpState;
+
+    private void Start()
+    {
+        _currentJumpState = JumpStates.Fall;
+        _jumpHeight = _wallContactPosition - _maxJumpHeight;
+    }
 
     private void OnEnable()
     {
         _swipeMouseDetector.Swipe += OnSwipe;
+        _swipeMouseDetector.SwipeEnd += OnSwipeEnd;
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
         _swipeMouseDetector.Swipe -= OnSwipe;
+        _swipeMouseDetector.SwipeEnd -= OnSwipeEnd;
     }
 
     private void FixedUpdate()
     {
-        Jump();
-
-        if(transform.position.z <= _wallContactPosition)
+        switch (_currentJumpState)
         {
-            _isGrounded = true;
+            case JumpStates.StartJump:
+                Jump();
+                break;
+            case JumpStates.Fall:
+                Fall();
+                break;
         }
+    }
+
+    private void OnSwipe(Vector2 delta)
+    {
+        SetJumpState(JumpStates.StartJump);
+    }
+
+    private void OnSwipeEnd(Vector2 delta)
+    {
+        _isGrounded = false;
+        SetJumpState(JumpStates.Fall);
     }
 
     private void Jump()
     {
+        if (transform.position.z <= _jumpHeight)
+        {
+            transform.position = PositionSetter.SetPositionZ(transform.position, _jumpHeight);
+            return;
+        }
+
         Vector3 pos = transform.position;
 
+        pos.z = Mathf.MoveTowards(pos.z, _jumpHeight, _velocity * Time.deltaTime);
+
+        transform.position = PositionSetter.SetPositionZ(transform.position, pos.z);
+
+    }
+
+    private void Fall()
+    {
         if (_isGrounded == false)
         {
-            pos.z += _velocity * Time.deltaTime;
-
-            if(pos.z >= _wallContactPosition + _maxJumpHeight)
+            if (transform.position.z >= _wallContactPosition)
             {
-                pos.z = _wallContactPosition + _maxJumpHeight;
+                _isGrounded = true;
+                transform.position = PositionSetter.SetPositionZ(transform.position, _wallContactPosition);
+                return;
             }
+
+            Vector3 pos = transform.position;
+
+            pos.z = Mathf.MoveTowards(pos.z, _wallContactPosition, _velocity * Time.deltaTime);
 
             transform.position = PositionSetter.SetPositionZ(transform.position, pos.z);
         }
     }
 
-    private void Fall()
+    private void SetJumpState(JumpStates newState)
     {
+        if (_currentJumpState == newState)
+            return;
 
+        _currentJumpState = newState;
     }
 
-    private void OnSwipe(Vector2 delta)
+    private enum JumpStates
     {
-        _isGrounded = false;
+        StartJump,
+        Fall
     }
 }
