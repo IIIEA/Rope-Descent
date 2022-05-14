@@ -6,8 +6,13 @@ public class SwipeMouseDetector : MonoBehaviour, ISwipe
     private bool _isSwipe;
     private Vector3 _lastPosition = new Vector2();
 
-    public event Action<Vector2> OnSwipe;
-    public event Action<Vector2> OnSwipeEnd;
+    public event Action<Vector2> Swipe;
+    public event Action<Vector2> SwipeEnd;
+
+    private void Start()
+    {
+        _lastPosition = Input.mousePosition;
+    }
 
     private void Update()
     {
@@ -16,7 +21,7 @@ public class SwipeMouseDetector : MonoBehaviour, ISwipe
             if (_isSwipe)
             {
                 _isSwipe = false;
-                OnSwipeEnd?.Invoke(_lastPosition);
+                SwipeEnd?.Invoke(_lastPosition);
             }
 
             _lastPosition = Input.mousePosition;
@@ -28,7 +33,7 @@ public class SwipeMouseDetector : MonoBehaviour, ISwipe
             _isSwipe = true;
         }
 
-        OnSwipe?.Invoke(Input.mousePosition - _lastPosition);
+        Swipe?.Invoke(Input.mousePosition - _lastPosition);
         _lastPosition = Input.mousePosition;
     }
 }

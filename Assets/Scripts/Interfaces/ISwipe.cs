@@ -3,6 +3,6 @@ using UnityEngine;
 
 public interface ISwipe
 {
-    public event Action<Vector2> OnSwipe;
-    public event Action<Vector2> OnSwipeEnd;
+    public event Action<Vector2> Swipe;
+    public event Action<Vector2> SwipeEnd;
 }

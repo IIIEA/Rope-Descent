@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class XMovementSwipeHandler : MonoBehaviour, IMovableObjectHandler
@@ -17,7 +16,7 @@ public class XMovementSwipeHandler : MonoBehaviour, IMovableObjectHandler
         {
             _swipeDetector = iSwipe;
 
-            _swipeDetector.OnSwipe += OnSwipe;
+            _swipeDetector.Swipe += OnSwipe;
         }
         else
         {
@@ -27,7 +26,7 @@ public class XMovementSwipeHandler : MonoBehaviour, IMovableObjectHandler
 
     private void OnDestroy()
     {
-        _swipeDetector.OnSwipe -= OnSwipe;
+        _swipeDetector.Swipe -= OnSwipe;
     }
 
     public void Inject(GameObject dependency)
@@ -49,17 +48,20 @@ public class XMovementSwipeHandler : MonoBehaviour, IMovableObjectHandler
         var offset = borderDistance * _normalizedCoefficient * delta.x / Screen.width;
         var currentPos = _movableObject.transform.position;
 
-        _movableObject.transform.position = new Vector3(currentPos.x + offset, currentPos.y, currentPos.z);
-
+        _movableObject.transform.position = PositionSetter.SetPositionX(_movableObject.transform.position, currentPos.x + offset);
         _movableObject.transform.position = SetPosition(_movableObject.transform.position);
     }
 
     private Vector3 SetPosition(Vector3 currentPositionX)
     {
+        var newPositionX = currentPositionX.x;
+
         if (currentPositionX.x > _rightBorder.position.x)
-            currentPositionX = new Vector3(_rightBorder.transform.position.x, currentPositionX.y, currentPositionX.z);
+            newPositionX = _rightBorder.position.x;
         else if (_movableObject.transform.position.x < _leftBorder.position.x)
-            currentPositionX = new Vector3(_leftBorder.transform.position.x, currentPositionX.y, currentPositionX.z);
+            newPositionX = _leftBorder.position.x;
+
+        currentPositionX = PositionSetter.SetPositionX(currentPositionX, newPositionX);
 
         return currentPositionX;
     }
