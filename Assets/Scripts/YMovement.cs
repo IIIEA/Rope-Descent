@@ -1,40 +1,27 @@
 using System;
 using UnityEngine;
 
-public class YMovementHandler : MonoBehaviour, IMovableObjectHandler
+public class YMovementHandler : MonoBehaviour
 {
-    private GameObject _movableObject;
-    private ISwipe _swipeDetector;
+    [Header("Links")]
+    [SerializeField] private SwipeMouseDetector _swipeMouseDetector;
+    [Header("Parameters")]
+    [SerializeField] private float _currentVelocity;
+    [SerializeField] private float _maxVelocity;
+    [SerializeField] private float _minVelocity;
 
-    private void Start()
+    private void OnEnable()
     {
-        if (TryGetComponent<ISwipe>(out ISwipe iSwipe))
-        {
-            _swipeDetector = iSwipe;
-
-            _swipeDetector.Swipe += OnSwipe;
-        }
-        else
-        {
-            Debug.LogError("ISwipe component in null");
-        }
+        _swipeMouseDetector.Swipe += OnSwipe;
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
-        _swipeDetector.Swipe -= OnSwipe;
-    }
-
-    public void Inject(GameObject dependency)
-    {
-        _movableObject = dependency;
+        _swipeMouseDetector.Swipe -= OnSwipe;
     }
 
     private void OnSwipe(Vector2 delta)
     {
-        if (_movableObject == null)
-        {
-            return;
-        }
+
     }
 }
