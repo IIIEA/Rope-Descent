@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class JumpZ : MonoBehaviour
+public class Jumper : MonoBehaviour
 {
     [Header("Links")]
     [SerializeField] private SwipeMouseDetector _swipeMouseDetector;
