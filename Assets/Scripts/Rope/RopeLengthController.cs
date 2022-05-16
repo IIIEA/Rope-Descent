@@ -3,6 +3,7 @@ using Obi;
 
 public class RopeLengthController : MonoBehaviour
 {
+	[SerializeField] private YMovement _yMovement;
 	[SerializeField] private ObiRopeCursor _cursor;
 	[SerializeField] private ObiRope _rope;
 
@@ -10,10 +11,7 @@ public class RopeLengthController : MonoBehaviour
 
 	void Update()
 	{
-		if (Input.GetKey(KeyCode.W))
-			_cursor.ChangeLength(_rope.restLength - _speed * Time.deltaTime);
-
-		if (Input.GetKey(KeyCode.S))
-			_cursor.ChangeLength(_rope.restLength + _speed * Time.deltaTime);
+		_speed = Remap.DoRemap(0, 25, 0, 10, _yMovement.VelocityY);
+		_cursor.ChangeLength(_rope.restLength + _speed * Time.deltaTime);
 	}
 }
