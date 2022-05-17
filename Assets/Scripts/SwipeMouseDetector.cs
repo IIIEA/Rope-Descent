@@ -14,7 +14,7 @@ public class SwipeMouseDetector : MonoBehaviour, ISwipe
         _lastPosition = Input.mousePosition;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (!Input.GetMouseButton(0))
         {

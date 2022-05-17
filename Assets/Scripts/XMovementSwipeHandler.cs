@@ -4,7 +4,7 @@ public class XMovementSwipeHandler : MonoBehaviour, IMovableObjectHandler
 {
     [SerializeField] private Transform _leftBorder;
     [SerializeField] private Transform _rightBorder;
-    [Header("Slowdown coefficient on swipe"), Range(0.5f, 1.5f)]
+    [Header("Slowdown coefficient on swipe"), Range(0.5f, 3f)]
     [SerializeField] private float _normalizedCoefficient = 1.0f;
 
     private GameObject _movableObject;
@@ -49,20 +49,24 @@ public class XMovementSwipeHandler : MonoBehaviour, IMovableObjectHandler
         var currentPos = _movableObject.transform.position;
 
         _movableObject.transform.position = PositionSetter.SetPositionX(_movableObject.transform.position, currentPos.x + offset);
-        _movableObject.transform.position = SetPosition(_movableObject.transform.position);
+        CheckPosition(_movableObject.transform.position);
     }
 
-    private Vector3 SetPosition(Vector3 currentPositionX)
+    private void CheckPosition(Vector3 currentPositionX)
     {
+        if(currentPositionX.x <= _rightBorder.position.x && currentPositionX.x >= _leftBorder.position.x)
+        {
+            return;
+        }
+
         var newPositionX = currentPositionX.x;
 
         if (currentPositionX.x > _rightBorder.position.x)
             newPositionX = _rightBorder.position.x;
-        else if (_movableObject.transform.position.x < _leftBorder.position.x)
+        else if (currentPositionX.x < _leftBorder.position.x)
             newPositionX = _leftBorder.position.x;
 
         currentPositionX = PositionSetter.SetPositionX(currentPositionX, newPositionX);
-
-        return currentPositionX;
+        _movableObject.transform.position = currentPositionX;
     }
 }
