@@ -3,15 +3,38 @@ using Obi;
 
 public class RopeLengthController : MonoBehaviour
 {
+	[SerializeField] private DistanceChecker _distanceChecker;
 	[SerializeField] private YMovement _yMovement;
 	[SerializeField] private ObiRopeCursor _cursor;
 	[SerializeField] private ObiRope _rope;
 
-	private float _speed = 1f;
+	private float _speed = 0f;
+	private float _length;
 
-	void Update()
+    private void Start()
+    {
+		_length = _rope.restLength;
+    }
+
+    void Update()
 	{
-		_speed = Remap.DoRemap(0, 25, 0, 10, _yMovement.VelocityY);
-		_cursor.ChangeLength(_rope.restLength + _speed * Time.deltaTime);
+
+	}
+
+    private void OnEnable()
+    {
+		_distanceChecker.DistanceChanged += OnDistanceChanged;
+    }
+
+    private void OnDisable()
+    {
+		_distanceChecker.DistanceChanged += OnDistanceChanged;
+	}
+
+	private void OnDistanceChanged(float distance)
+    {
+		_cursor.ChangeLength(_rope.restLength + _yMovement.VelocityY * Time.deltaTime);
+		Debug.Log(distance + "----------------");
+		Debug.Log(_rope.restLength);
 	}
 }
