@@ -31,7 +31,7 @@ public class RopeLengthController : MonoBehaviour
 		_distanceChecker.DistanceChanged += OnDistanceChanged;
 	}
 
-	private void OnDistanceChanged(float distance)
+	private void OnDistanceChanged(float distance, float maxDistance)
     {
 		_cursor.ChangeLength(_rope.restLength + _yMovement.VelocityY * Time.deltaTime);
 		Debug.Log(distance + "----------------");
