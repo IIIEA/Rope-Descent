@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class DistanceChecker : MonoBehaviour
 {
-    [SerializeField] private Transform _point;
+    [SerializeField] private Transform _startPosition;
     [SerializeField] private float _plusDistnceSize;
     [SerializeField] private float _maxDistance;
 
@@ -17,23 +17,21 @@ public class DistanceChecker : MonoBehaviour
 
     private void Start()
     {
-        DistanceChanged?.Invoke(_distancePassed, MaxDistance);
-        _currentDistance = (transform.position - _point.position).magnitude;
+        _startPosition.position = transform.position;
+        DistanceChanged?.Invoke(_points, MaxDistance);
+        _currentDistance = (transform.position - _startPosition.position).magnitude;
     }
 
     private void Update()
     {
-        if(_currentDistance != (transform.position - _point.position).magnitude)
+        if(_currentDistance != (transform.position - _startPosition.position).magnitude)
         {
-            _currentDistance = (transform.position - _point.position).magnitude;
+            _currentDistance = (transform.position - _startPosition.position).magnitude;
             var points = _currentDistance - _distancePassed;
-            _points += points;
             _distancePassed += points;
+            _points += points;
 
-            Debug.Log(_points);
             DistanceChanged?.Invoke(_points, MaxDistance);
-
-
         }
     }
 
@@ -42,6 +40,11 @@ public class DistanceChecker : MonoBehaviour
         if (other.GetComponent<RopeBuff>())
         {
             _points -= _plusDistnceSize;
+
+            if(_points < 0)
+            {
+                _points = 0;
+            }
         }
     }
 }
