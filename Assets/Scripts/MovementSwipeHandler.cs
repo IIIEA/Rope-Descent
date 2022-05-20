@@ -1,7 +1,8 @@
 using UnityEngine;
 
-public class XMovementSwipeHandler : MonoBehaviour, IMovableObjectHandler
+public class MovementSwipeHandler : MonoBehaviour
 {
+    [SerializeField] private SwipeMouseDetector _swipe;
     [SerializeField] private Transform _leftBorder;
     [SerializeField] private Transform _rightBorder;
     [Header("Slowdown coefficient on swipe"), Range(0.5f, 3f)]
@@ -12,16 +13,7 @@ public class XMovementSwipeHandler : MonoBehaviour, IMovableObjectHandler
 
     private void Start()
     {
-        if (TryGetComponent<ISwipe>(out ISwipe iSwipe))
-        {
-            _swipeDetector = iSwipe;
 
-            _swipeDetector.Swipe += OnSwipe;
-        }
-        else
-        {
-            Debug.LogError("ISwipe component in null");
-        }
     }
 
     private void OnDestroy()
