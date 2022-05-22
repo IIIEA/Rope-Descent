@@ -11,7 +11,6 @@ public class YMovement : MonoBehaviour
     [SerializeField] private float _minVelocity;
     [SerializeField] private float _speed;
 
-
     private Vector3 _velocity;
     private bool _isSlide;
 
