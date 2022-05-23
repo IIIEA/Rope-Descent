@@ -37,7 +37,7 @@ public class DistanceChecker : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<RopeBuff>())
+        if (other.TryGetComponent<RopeBuff>(out RopeBuff ropeBuff))
         {
             _points -= _plusDistnceSize;
 
@@ -45,6 +45,8 @@ public class DistanceChecker : MonoBehaviour
             {
                 _points = 0;
             }
+
+            ropeBuff.Collect(transform.position);
         }
     }
 }
