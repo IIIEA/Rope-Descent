@@ -16,11 +16,6 @@ public class RopeLengthController : MonoBehaviour
 		_length = _rope.restLength;
     }
 
-    void Update()
-	{
-
-	}
-
     private void OnEnable()
     {
 		_distanceChecker.DistanceChanged += OnDistanceChanged;
@@ -28,13 +23,16 @@ public class RopeLengthController : MonoBehaviour
 
     private void OnDisable()
     {
-		_distanceChecker.DistanceChanged += OnDistanceChanged;
+		_distanceChecker.DistanceChanged -= OnDistanceChanged;
 	}
 
 	private void OnDistanceChanged(float distance, float maxDistance)
     {
-		_cursor.ChangeLength(_rope.restLength + _yMovement.VelocityY * Time.deltaTime);
-		Debug.Log(distance + "----------------");
-		Debug.Log(_rope.restLength);
+		if (_rope.restLength <= distance)
+		{
+			_cursor.ChangeLength(distance);
+			Debug.Log(distance + "----------------");
+			Debug.Log(_rope.restLength);
+		}
 	}
 }

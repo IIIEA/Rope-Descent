@@ -33,7 +33,8 @@ public class MovementSwipeHandler : MonoBehaviour, IMovableObjectHandler
 
     private void FixedUpdate()
     {
-        _movableObject.transform.position = Vector3.MoveTowards(_movableObject.transform.position, new Vector3(_targetPosX, _movableObject.transform.position.y, _movableObject.transform.position.z), _speed * Time.deltaTime);
+        _movableObject.transform.position = Vector3.Lerp(_movableObject.transform.position, new Vector3(_targetPosX, _movableObject.transform.position.y, _movableObject.transform.position.z), _speed * Time.deltaTime);
+        CheckPosition(_movableObject.transform.position);
     }
 
     public void Inject(GameObject dependency)
@@ -56,7 +57,6 @@ public class MovementSwipeHandler : MonoBehaviour, IMovableObjectHandler
         var currentPos = _movableObject.transform.position;
 
         _targetPosX = currentPos.x + offset;
-        CheckPosition(_movableObject.transform.position);
     }
 
     private void CheckPosition(Vector3 currentPositionX)

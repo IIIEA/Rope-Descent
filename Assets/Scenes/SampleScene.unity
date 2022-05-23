@@ -2606,7 +2606,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   solvers:
   - {fileID: 1232989945}
-  substeps: 3
+  substeps: 1
 --- !u!114 &1232989945
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2634,7 +2634,7 @@ MonoBehaviour:
     shockPropagation: 0
     surfaceCollisionIterations: 8
     surfaceCollisionTolerance: 0.005
-  gravity: {x: 0, y: -9.81, z: 0}
+  gravity: {x: 0, y: 9.81, z: 0}
   gravitySpace: 1
   worldLinearInertiaScale: 0
   worldAngularInertiaScale: 0
