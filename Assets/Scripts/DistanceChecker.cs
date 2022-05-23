@@ -19,14 +19,14 @@ public class DistanceChecker : MonoBehaviour
     {
         _startPosition.position = transform.position;
         DistanceChanged?.Invoke(_points, MaxDistance);
-        _currentDistance = (transform.position - _startPosition.position).magnitude;
+        _currentDistance = Mathf.Abs(transform.position.y - _startPosition.position.y);
     }
 
     private void Update()
     {
-        if(_currentDistance != (transform.position - _startPosition.position).magnitude)
+        if(_currentDistance != Mathf.Abs(transform.position.y - _startPosition.position.y))
         {
-            _currentDistance = (transform.position - _startPosition.position).magnitude;
+            _currentDistance = Mathf.Abs(transform.position.y - _startPosition.position.y);
             var points = _currentDistance - _distancePassed;
             _distancePassed += points;
             _points += points;
