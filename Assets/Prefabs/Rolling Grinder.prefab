@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1155471347801266208}
   - component: {fileID: 499374553}
   - component: {fileID: 7851871477557914294}
+  - component: {fileID: 2068069589}
   m_Layer: 0
   m_Name: Rolling Grinder
   m_TagString: Untagged
@@ -112,3 +113,15 @@ CapsuleCollider:
   m_Height: 1.5697533
   m_Direction: 2
   m_Center: {x: -0.000000044703484, y: 0.000000029802322, z: 0}
+--- !u!114 &2068069589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 795434409686317557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 841eae2f1fe09914ea83756ff302661a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

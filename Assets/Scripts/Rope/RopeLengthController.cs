@@ -31,8 +31,6 @@ public class RopeLengthController : MonoBehaviour
 		if (_rope.restLength <= distance)
 		{
 			_cursor.ChangeLength(distance);
-			Debug.Log(distance + "----------------");
-			Debug.Log(_rope.restLength);
 		}
 	}
 }
