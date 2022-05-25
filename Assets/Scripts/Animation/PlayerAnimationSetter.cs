@@ -5,6 +5,8 @@ public class PlayerAnimationSetter : MonoBehaviour
 {
     [SerializeField] private Jumper _jumper;
     [SerializeField] private YMovement _yMovement;
+    [SerializeField] private ParticleSystem _jumpParticles;
+
     private Animator _animator;
 
     private const string Land = nameof(Land);
@@ -29,15 +31,25 @@ public class PlayerAnimationSetter : MonoBehaviour
     private void OnEnable()
     {
         _jumper.Landed += OnLanded;
+        _jumper.Jumped += OnJumped;
     }
 
     private void OnDisable()
     {
         _jumper.Landed -= OnLanded;
+        _jumper.Jumped -= OnJumped;
     }
 
     private void OnLanded()
     {
         _animator.SetTrigger(Land);
+    }
+
+    private void OnJumped()
+    {
+        if (_jumper.IsGrounded)
+        {
+            _jumpParticles.Play();
+        }
     }
 }

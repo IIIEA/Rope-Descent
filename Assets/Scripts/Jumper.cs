@@ -18,6 +18,7 @@ public class Jumper : MonoBehaviour
     public bool IsGrounded => _isGrounded;
 
     public UnityAction Landed;
+    public UnityAction Jumped;
 
     private void Start()
     {
@@ -63,6 +64,7 @@ public class Jumper : MonoBehaviour
 
     private void Jump()
     {
+        Jumped?.Invoke();
         _isGrounded = false;
 
         if (transform.position.z <= _jumpHeight)
