@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Jumper : MonoBehaviour
 {
@@ -11,8 +12,12 @@ public class Jumper : MonoBehaviour
     [SerializeField] private float _velocity;
 
     private float _jumpHeight;
-    private bool _isGrounded;
+    private bool _isGrounded = true;
     private JumpStates _currentJumpState;
+
+    public bool IsGrounded => _isGrounded;
+
+    public UnityAction Landed;
 
     private void Start()
     {
@@ -58,6 +63,8 @@ public class Jumper : MonoBehaviour
 
     private void Jump()
     {
+        _isGrounded = false;
+
         if (transform.position.z <= _jumpHeight)
         {
             transform.position = PositionSetter.SetPositionZ(transform.position, _jumpHeight);
@@ -79,6 +86,7 @@ public class Jumper : MonoBehaviour
             if (transform.position.z >= _wallContactPosition)
             {
                 _isGrounded = true;
+                Landed?.Invoke();
                 transform.position = PositionSetter.SetPositionZ(transform.position, _wallContactPosition);
                 return;
             }
