@@ -6,6 +6,7 @@ public class PlayerAnimationSetter : MonoBehaviour
     [SerializeField] private Jumper _jumper;
     [SerializeField] private YMovement _yMovement;
     [SerializeField] private ParticleSystem _jumpParticles;
+    [SerializeField] private ParticleSystem _slideParticles;
 
     private Animator _animator;
 
@@ -26,6 +27,19 @@ public class PlayerAnimationSetter : MonoBehaviour
         }
 
         _animator.SetFloat(VelocityY, Remap.DoRemap(0, 10, 0, 1, _yMovement.VelocityY));
+
+        if (_jumper.IsGrounded == true && _yMovement.VelocityY > 0.01f)
+        {
+            if (_slideParticles.isPlaying != true) 
+            {
+                _slideParticles.Play();
+            }
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        
     }
 
     private void OnEnable()
