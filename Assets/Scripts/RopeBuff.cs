@@ -12,7 +12,7 @@ public class RopeBuff : MonoBehaviour, ICollectable
     public void Collect(Vector3 point)
     {
         Destroy(gameObject, 0.3f);
-        transform.DOScale(0, 0.5f);
+        transform.DOScale(0.3f, 0.3f);
         transform.DOMove(point, 0.1f);
     }
 }

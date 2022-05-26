@@ -7,6 +7,7 @@ public class PlayerAnimationSetter : MonoBehaviour
     [SerializeField] private YMovement _yMovement;
     [SerializeField] private ParticleSystem _jumpParticles;
     [SerializeField] private ParticleSystem _slideParticles;
+    [SerializeField] private ParticleSystem _spotLightParticles;
 
     private Animator _animator;
 
@@ -24,7 +25,14 @@ public class PlayerAnimationSetter : MonoBehaviour
         if(_jumper.IsGrounded == false)
         {
             _animator.Play(SlideDown);
+
+            _spotLightParticles.gameObject.SetActive(true);
         }
+        else
+        {
+            _spotLightParticles.gameObject.SetActive(false);
+        }
+
 
         _animator.SetFloat(VelocityY, Remap.DoRemap(0, 10, 0, 1, _yMovement.VelocityY));
 
